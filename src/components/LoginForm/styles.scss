@@ -1,0 +1,52 @@
+@import '../../assets/styles/colors.scss';
+form {
+  max-width: 350px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+label,
+input {
+  display: block;
+  width: 100%;
+}
+
+label {
+  margin-bottom: 5px;
+  height: 22px;
+  color: $purple;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: bold;
+}
+
+input {
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 3px;
+  border: 1px solid #777;
+}
+
+input.error {
+  border-color: $red;
+}
+
+.input-feedback {
+  color: $red;
+  margin-top: -15px;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 10px 15px;
+  background-color: $purple;
+  color: $white;
+  border: 1px solid $purple;
+  border-radius: 3px;
+}
+
+button:hover {
+  background-color: $white;
+  cursor: pointer;
+  color: $purple;
+}
