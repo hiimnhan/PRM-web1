@@ -7,13 +7,11 @@ import { connect } from 'react-redux';
 import './styles.scss';
 import { authActions } from '../../redux/actions/auth.actions';
 function LoginForm(props) {
-  const { login } = props;
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { login, loggingIn } = props;
   const handleSubmit = (values) => {
-    console.log('submitting', values);
     login(values);
-    setIsSubmitting(true);
   };
+  console.log('class', ['login-button', loggingIn ? 'disabled' : ''].join(' '));
   return (
     <Formik
       initialValues={{ email: '', password: '' }}
@@ -37,39 +35,64 @@ function LoginForm(props) {
           handleSubmit,
         } = props;
         return (
-          <form onSubmit={handleSubmit}>
-            <label className='label' htmlFor='email'>
-              Email
-            </label>
-            <input
-              name='email'
-              type='text'
-              placeholder='Enter your email'
-              value={values.email}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              className={errors.email && touched.email && 'error'}
-            />
-            {errors.email && touched.email && (
-              <div className='input-feedback'>{errors.email}</div>
-            )}
-            <label htmlFor='email'>Password</label>
-            <input
-              name='password'
-              type='password'
-              placeholder='Enter your password'
-              value={values.password}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              className={errors.password && touched.password && 'error'}
-            />
-            {errors.password && touched.password && (
-              <div className='input-feedback'>{errors.password}</div>
-            )}
-            <button type='submit' disabled={isSubmitting}>
-              Login
-            </button>
-          </form>
+          <div className='form-login'>
+            <div className='form-panel one'>
+              <div className='form-content'>
+                <form onSubmit={handleSubmit}>
+                  <div className='form-login-group'>
+                    <label className='login-label' htmlFor='email'>
+                      Email
+                    </label>
+                    <input
+                      type='text'
+                      id='email'
+                      name='email'
+                      className='login-input'
+                      value={values.email}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    {errors.email && touched.email && (
+                      <div className='login-input__feedback'>
+                        {errors.email}
+                      </div>
+                    )}
+                  </div>
+                  <div className='form-login-group'>
+                    <label className='login-label' htmlFor='password'>
+                      Password
+                    </label>
+                    <input
+                      type='password'
+                      id='password'
+                      name='password'
+                      className='login-input'
+                      value={values.password}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    {errors.password && touched.password && (
+                      <div className='login-input__feedback'>
+                        {errors.password}
+                      </div>
+                    )}
+                  </div>
+                  <div className='form-login-group'>
+                    <button
+                      className={[
+                        'login-button',
+                        loggingIn ? 'disabled' : '',
+                      ].join(' ')}
+                      type='submit'
+                      disabled={loggingIn}
+                    >
+                      Log In
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
         );
       }}
     </Formik>

@@ -2,15 +2,15 @@ import authContants from '../constants/auth.constants';
 
 const initialState = {
   user: {},
-  loggedIn: false,
-  loggingIn: true,
+  loggedIn: true,
+  loggingIn: false,
   errors: '',
 };
 
 export function authReducer(state = initialState, action) {
   switch (action.type) {
     case authContants.LOGIN_REQUEST:
-      return { ...state };
+      return { ...state, loggingIn: true };
     case authContants.LOGIN_SUCCESS:
       return {
         ...state,

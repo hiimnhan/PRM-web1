@@ -1,7 +1,22 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
+
 const baseUrl = 'http://financial-web-service.azurewebsites.net/';
+
+const setHeader = (token) => {
+  return {
+    headers: {
+      Authorization: 'Bearer ' + token,
+    },
+  };
+};
+
+const setStorage = ({ key, val }) => {
+  window.localStorage.setItem(key, val);
+};
+
+const getStorage = (key) => window.localStorage.getItem(key) || '';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -16,4 +31,4 @@ firebase.initializeApp(firebaseConfig);
 const firebaseAuth = firebase.auth();
 const firestore = firebase.firestore();
 
-export { baseUrl, firebaseAuth, firestore };
+export { baseUrl, firebaseAuth, firestore, setHeader, setStorage, getStorage };

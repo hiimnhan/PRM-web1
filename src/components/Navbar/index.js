@@ -12,14 +12,20 @@ import './styles.scss';
 import { bankActions } from '../../redux/actions/banks.actions';
 
 import { connect } from 'react-redux';
+import { useState } from 'react';
 
 const ITEM_BANK_NAME = 'Banks';
 const ITEM_CALC_NAME = 'Calculations';
 function Navbar(props) {
-  const { getAllBanks } = props;
+  const { getAllBanks, onSelectedItem } = props;
+  const [selectedTab, setSelectedTab] = useState('Banks');
 
   const handleOnClick = (name) => {
-    if (name === ITEM_BANK_NAME) getAllBanks();
+    if (name === ITEM_BANK_NAME) {
+      getAllBanks();
+    }
+    setSelectedTab(name);
+    onSelectedItem(name);
   };
   return (
     <nav className='navbar'>
@@ -31,10 +37,23 @@ function Navbar(props) {
           <div
             key={item.name}
             className='navbar-item'
-            onClick={handleOnClick(item.name)}
+            onClick={() => handleOnClick(item.name)}
           >
-            <FontAwesomeIcon className='navbar-item__icon' icon={item.icon} />
-            <p className='navbar-item__text'>{item.name}</p>
+            <FontAwesomeIcon
+              className={[
+                'navbar-item__icon',
+                selectedTab === item.name ? 'navbar-item__icon--selected' : '',
+              ].join(' ')}
+              icon={item.icon}
+            />
+            <p
+              className={[
+                'navbar-item__text',
+                selectedTab === item.name ? 'navbar-item__text--selected' : '',
+              ].join(' ')}
+            >
+              {item.name}
+            </p>
           </div>
         ))}
       </div>
@@ -51,6 +70,7 @@ const mapDispatchToProps = (dispatch) => {
 
 Navbar.propTypes = {
   getAllBanks: PropTypes.any,
+  onSelectedItem: PropTypes.func,
 };
 
 export default connect(null, mapDispatchToProps)(Navbar);

@@ -1,15 +1,16 @@
 import React from 'react';
 import LoginForm from '../../components/LoginForm';
 import Login from '../../assets/images/cloud.png';
-
+import { connect } from 'react-redux';
 import './styles.scss';
 
-function LoginPage(props) {
+function LoginPage({ loggingIn }) {
+  console.log('page', loggingIn);
   return (
     <div className='login-container'>
       <div className='login-container--left'>
         <div className='login-title'>Login</div>
-        <LoginForm />
+        <LoginForm loggingIn={loggingIn} />
       </div>
       <div className='login-container--right'>
         <img src={Login} alt='bank' className='login-image' />
@@ -18,6 +19,12 @@ function LoginPage(props) {
   );
 }
 
+const mapStateToProps = (state) => {
+  return {
+    loggingIn: state.authentication.loggingIn,
+  };
+};
+
 LoginPage.propTypes = {};
 
-export default LoginPage;
+export default connect(mapStateToProps, null)(LoginPage);

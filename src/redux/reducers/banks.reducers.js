@@ -4,6 +4,7 @@ const initialState = {
   banks: [],
   errors: '',
   loading: true,
+  bank: {},
 };
 
 export function bankReducer(state = initialState, action) {
@@ -21,6 +22,18 @@ export function bankReducer(state = initialState, action) {
         ...state,
         errors: action.errors,
         loading: false,
+      };
+    case bankConstants.GET_BANK_REQUEST:
+      return { ...state };
+    case bankConstants.GET_BANK_SUCCESS:
+      return {
+        ...state,
+        bank: action.bank,
+      };
+    case bankConstants.GET_BANK_FAILURE:
+      return {
+        ...state,
+        errors: action.errors,
       };
     default:
       return { ...state };

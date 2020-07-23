@@ -12,10 +12,10 @@ import PropTypes from 'prop-types';
 import './styles.scss';
 
 const iconList = [faUniversity, faCalculator];
-const itemList = ['Banks', 'Calculation'];
+const itemList = ['Banks', 'Calculations'];
 
 function Carousel(props) {
-  const { item, quantity = '50' } = props;
+  const { item, quantity = '0' } = props;
   const icon = iconList[itemList.indexOf(item)];
   return (
     <div className='carousel'>

@@ -1,3 +1,4 @@
+@import '../../assets/styles/colors.scss';
 // Font Family
 $body-font: 'Roboto';
 
@@ -29,7 +30,7 @@ $max-width: 600px;
 $max-height: 400px;
 $gutters: 24px;
 
-.form-login {
+.form-bank {
   z-index: 15;
   position: relative;
   background-color: $white;
@@ -37,22 +38,22 @@ $gutters: 24px;
   border-radius: 4px;
   box-sizing: border-box;
   overflow: hidden;
-  padding: 60px;
+  padding: 30px;
 
   &-group {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    margin: 0 0 20px;
+    margin: 0 0 10px;
 
     &:last-child {
       margin: 0;
     }
 
-    .login-label {
+    .bank-label {
       display: block;
-      margin-top: 10px;
-      margin-bottom: 10px;
+      margin-top: 5px;
+      margin-bottom: 5px;
       color: $gray;
       font-size: 12px;
       font-weight: $semibold;
@@ -61,7 +62,7 @@ $gutters: 24px;
       letter-spacing: 0.2em;
     }
 
-    .login-input {
+    .bank-input {
       outline: none;
       display: block;
       background: rgba($black, 0.1);
@@ -92,10 +93,10 @@ $gutters: 24px;
       }
     }
 
-    .login-button {
+    .bank-button {
       outline: none;
       background: $accent;
-      width: 100%;
+      width: 40%;
       border: 0;
       border-radius: 4px;
       padding: 12px 20px;
@@ -106,16 +107,29 @@ $gutters: 24px;
       line-height: inherit;
       text-transform: uppercase;
       cursor: pointer;
+
+      &__group {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+      }
+
+      &__cancel {
+        background-color: $light-gray;
+      }
     }
   }
 }
 
-.disabled {
-  background-color: $light-gray;
+.bank-loan__tittle {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  color: $purple;
+  font-size: 1rem;
+  font-weight: $bold;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
 }
-
-// .form-login {
-//   padding: 40px;
-//   max-width: 700px;
-//   margin: 40px auto;
-// }

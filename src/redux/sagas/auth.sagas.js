@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { put, takeEvery } from 'redux-saga/effects';
-import { firebaseAuth } from '../../service';
+import { firebaseAuth, setHeader, baseUrl, setStorage } from '../../service';
 import authContants from '../constants/auth.constants';
 import { authActions } from '../actions/auth.actions';
 import { history } from '../../helpers/';
@@ -8,26 +8,30 @@ import { history } from '../../helpers/';
 function* login(params) {
   const { email, password } = params.params;
   let errorCode = '';
-  console.log('e, p', email, password);
   try {
     yield firebaseAuth
       .signInWithEmailAndPassword(email, password)
       .catch((error) => {
-        console.log('errorFB', error);
         errorCode = error.code;
-        //yield put(authActions.signInFailure(errorCode));
       });
     if (errorCode === 'auth/user-not-found' && errorCode !== null) {
       yield put(authActions.signInFailure(errorCode));
     } else {
       const user = yield firebaseAuth.currentUser;
       const idToken = yield firebaseAuth.currentUser.getIdToken(true);
+      const config = setHeader(idToken);
+      const uid = user.uid;
       console.log('uid', idToken);
       console.log('user', user.uid);
-      if (user) {
-        history.push('/');
-      }
-      yield put(authActions.signInSuccess(user));
+      const jwtString = yield axios
+        .post(`${baseUrl + authContants.LOGIN_PATH}?uid=${uid}`, config)
+        .then((res) => res.data);
+      console.log('jwt', jwtString);
+      setStorage({
+        key: 'AUTH_TOKEN',
+        val: jwtString,
+      });
+      yield put(authActions.signInSuccess(jwtString));
     }
   } catch (error) {
     console.log('error', error);

@@ -1,20 +1,21 @@
 import React from 'react';
-import { Route, Router, Switch, Redirect } from 'react-router-dom';
+import {
+  Route,
+  BrowserRouter as Router,
+  Switch,
+  Redirect,
+} from 'react-router-dom';
 import './App.css';
-import Navbar from './components/Navbar';
-import Carousel from './components/Carousel';
 import LoginPage from './pages/Login';
 import HomePage from './pages/HomePage';
+import PrivateRoute, { routePath } from './helpers/routes.helpers';
 import { history } from './helpers/index';
 
 function App() {
   return (
     <Router history={history}>
-      <Switch>
-        <Route path='/login' component={LoginPage} />
-        <Route path='/' exact component={HomePage} />
-        <Redirect from='*' to='/login' component={LoginPage} />
-      </Switch>
+      <Route path={routePath.LOGIN_PATH} component={LoginPage} />
+      <PrivateRoute path={routePath.HOME_PATH} component={HomePage} />
     </Router>
   );
 }
