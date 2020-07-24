@@ -21,7 +21,7 @@ import './styles.scss';
 import { bankActions } from '../../redux/actions/banks.actions';
 import { useState } from 'react';
 function BankTable(props) {
-  const { banks = [], onOpenModal, onSelectedBank } = props;
+  const { banks = [], onOpenModal, onSelectedBank, deleteBank } = props;
 
   const handleClickEdit = (id) => {
     onOpenModal('edit');
@@ -122,6 +122,7 @@ function BankTable(props) {
                       className='table-icon'
                       icon={faCheckCircle}
                       color={'#48C690'}
+                      onClick={() => deleteBank(bank.id)}
                     />
                   </Popover>
                 </TableCell>
@@ -138,12 +139,14 @@ const mapDispatchToProps = (dispatch) => {
   return {
     ...dispatch,
     getBank: (id) => dispatch(bankActions.getBankRequest(id)),
+    deleteBank: (id) => dispatch(bankActions.deleteBankRequest(id)),
   };
 };
 
 BankTable.propTypes = {
   children: PropTypes.array,
   getBank: PropTypes.func,
+  deleteBank: PropTypes.func,
 };
 
 export default connect(null, mapDispatchToProps)(BankTable);

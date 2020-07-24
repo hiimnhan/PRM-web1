@@ -11,11 +11,17 @@ import HomePage from './pages/HomePage';
 import PrivateRoute, { routePath } from './helpers/routes.helpers';
 import { history } from './helpers/index';
 
+import ReactNotification from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
+
 function App() {
   return (
     <Router history={history}>
-      <Route path={routePath.LOGIN_PATH} component={LoginPage} />
-      <PrivateRoute path={routePath.HOME_PATH} component={HomePage} />
+      <ReactNotification />
+      <Switch>
+        <Route path={routePath.LOGIN_PATH} component={LoginPage} />
+        <PrivateRoute path={routePath.HOME_PATH} component={HomePage} />
+      </Switch>
     </Router>
   );
 }

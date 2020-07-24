@@ -3,7 +3,6 @@ import { put, takeEvery } from 'redux-saga/effects';
 import { firebaseAuth, setHeader, baseUrl, setStorage } from '../../service';
 import authContants from '../constants/auth.constants';
 import { authActions } from '../actions/auth.actions';
-import { history } from '../../helpers/';
 
 function* login(params) {
   const { email, password } = params.params;

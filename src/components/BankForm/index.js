@@ -4,10 +4,10 @@ import * as Yup from 'yup';
 import { connect } from 'react-redux';
 import './styles.scss';
 import { bankActions } from '../../redux/actions/banks.actions';
-import { useEffect } from 'react';
+import moment from 'moment';
 function BankForm(props) {
-  const { onCloseModal, action, bank = null } = props;
-  console.log('bank', bank);
+  const { onCloseModal, action, bank = null, addBank, editBank } = props;
+  console.log('action', action);
   const initialValues = {
     bankName: action === 'edit' && bank ? bank.name : '',
     loanRateSix: action === 'edit' && bank ? bank.loanRateSix : 0,
@@ -19,7 +19,6 @@ function BankForm(props) {
       action === 'edit' && bank ? bank.savingRateTwentyFour : 0,
     icon: action === 'edit' && bank ? bank.icon : '',
   };
-  console.log('initialValues', initialValues);
 
   const validationSchema = Yup.object().shape({
     bankName: Yup.string().required('required'),
@@ -50,7 +49,37 @@ function BankForm(props) {
     icon: Yup.string().required('Required'),
   });
 
-  const handleSubmit = (values) => {};
+  const handleSubmit = (values) => {
+    if (action === 'add') {
+      addBank({
+        id: 0,
+        name: values.bankName,
+        icon: values.icon,
+        loanRateSix: values.loanRateSix,
+        loanRateTwelve: values.loanRateTwelve,
+        loanRateTwentyFour: values.loanRateTwentyFour,
+        savingRateSix: values.savingRateSix,
+        savingRateTwelve: values.savingRateTwelve,
+        savingRateTwentyFour: values.savingRateTwentyFour,
+        createdDate: moment().toISOString(),
+      });
+      onCloseModal();
+    } else if (action === 'edit') {
+      editBank({
+        id: bank.id,
+        name: values.bankName,
+        icon: values.icon,
+        loanRateSix: values.loanRateSix,
+        loanRateTwelve: values.loanRateTwelve,
+        loanRateTwentyFour: values.loanRateTwentyFour,
+        savingRateSix: values.savingRateSix,
+        savingRateTwelve: values.savingRateTwelve,
+        savingRateTwentyFour: values.savingRateTwentyFour,
+        createdDate: moment().toISOString(),
+      });
+      onCloseModal();
+    }
+  };
   return (
     <Formik
       enableReinitialize
@@ -68,7 +97,6 @@ function BankForm(props) {
           handleBlur,
           handleSubmit,
         } = props;
-        console.log('values', values);
         return (
           <div className='form-bank'>
             <div className='form-panel one'>
@@ -253,4 +281,12 @@ function BankForm(props) {
   );
 }
 
-export default connect(null, null)(BankForm);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    ...dispatch,
+    addBank: (params) => dispatch(bankActions.addBankRequest(params)),
+    editBank: (params) => dispatch(bankActions.updateBankRequest(params)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(BankForm);
