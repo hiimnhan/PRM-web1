@@ -21,6 +21,9 @@ function App() {
       <Switch>
         <Route path={routePath.LOGIN_PATH} component={LoginPage} />
         <PrivateRoute path={routePath.HOME_PATH} component={HomePage} />
+        <Route
+          render={() => <Redirect to={{ pathname: routePath.LOGIN_PATH }} />}
+        />
       </Switch>
     </Router>
   );

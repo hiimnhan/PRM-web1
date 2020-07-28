@@ -13,6 +13,7 @@ import { useState } from 'react';
 import './styles.scss';
 import BankForm from '../../components/BankForm';
 import { makeStyles } from '@material-ui/core';
+import Loading from '../../components/Loading';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -26,7 +27,7 @@ const ADD_ACTION = 'add';
 const EDIT_ACTION = 'edit';
 
 function HomePage(props) {
-  const { banks = [], getAllBanks, getBank, bank = {} } = props;
+  const { banks = [], getAllBanks, getBank, bank = {}, loading } = props;
   const classes = useStyles();
   const [selectedItem, setSelectedItem] = useState('Banks');
   const [openModal, setOpenModal] = useState(false);
@@ -74,7 +75,9 @@ function HomePage(props) {
         </Button>
       </div>
       <div className='table-container'>
-        {selectedItem === 'Banks' ? (
+        {loading ? (
+          <Loading />
+        ) : selectedItem === 'Banks' ? (
           <BankTable
             onOpenModal={handleOpenModal}
             onSelectedBank={handleSetBankId}
@@ -102,6 +105,7 @@ const mapStateToProps = (state) => {
   return {
     banks: state.bankReducer.banks,
     bank: state.bankReducer.bank,
+    loading: state.bankReducer.loading,
   };
 };
 
