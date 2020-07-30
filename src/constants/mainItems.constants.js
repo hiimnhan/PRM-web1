@@ -1,9 +1,7 @@
 const {
   faUniversity,
   faCalculator,
-  faUsers,
-  faLanguage,
-  faQuestionCircle,
+  faChartBar,
 } = require('@fortawesome/free-solid-svg-icons');
 
 const mainItemBank = [
@@ -17,24 +15,11 @@ const mainItemBank = [
     icon: faCalculator,
     path: '/calculation',
   },
-];
-
-const mainItemEnglish = [
   {
-    name: 'Users',
-    icon: faUsers,
-    path: '/users',
-  },
-  {
-    name: 'Words',
-    icon: faLanguage,
-    path: '/words',
-  },
-  {
-    name: 'Questions',
-    icon: faQuestionCircle,
-    path: '/questions',
+    name: 'Analysis',
+    icon: faChartBar,
+    path: '/analysis',
   },
 ];
 
-export { mainItemBank, mainItemEnglish };
+export { mainItemBank };

@@ -9,7 +9,6 @@ function* getAllFormulars() {
     const result = yield axios
       .get(baseUrl + calcConstants.GET_ALL_FORMULA_PATH)
       .then((res) => res.data);
-    console.log('data', result);
     yield put(calcActions.getAllFormularSuccess(result));
   } catch (error) {
     console.log('error', error);

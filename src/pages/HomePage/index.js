@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import Navbar from '../../components/Navbar';
 import Carousel from '../../components/Carousel';
 import BankTable from '../../components/BankTable';
+import Calculation from '../../components/Calculation';
+import Analysis from '../../components/Analysis';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,7 +17,8 @@ import './styles.scss';
 import BankForm from '../../components/BankForm';
 import { makeStyles } from '@material-ui/core';
 import Loading from '../../components/Loading';
-import CalcAccordion from '../../components/CalcAccordion';
+
+const itemName = ['Banks', 'Calculations', 'Analysis'];
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -31,7 +34,7 @@ const EDIT_ACTION = 'edit';
 function HomePage(props) {
   const {
     banks = [],
-    formulars: [],
+    formulars = [],
     getAllBanks,
     getAllFormulars,
     getBank,
@@ -72,20 +75,24 @@ function HomePage(props) {
   return (
     <div className='homepage-container'>
       <Navbar onSelectedItem={handleSelectedItem} />
-      <Carousel
-        item={selectedItem}
-        quantity={selectedItem === 'Banks' ? banks.length : 0}
-      />
-      <div className='button-container'>
-        <Button
-          variant='contained'
-          color='default'
-          startIcon={<FontAwesomeIcon icon={faPlusCircle} />}
-          onClick={() => handleOpenModal('add')}
-        >
-          Add new
-        </Button>
-      </div>
+      {selectedItem !== 'Analysis' && (
+        <Carousel
+          item={selectedItem}
+          quantity={selectedItem === 'Banks' ? banks.length : 0}
+        />
+      )}
+      {selectedItem !== 'Analysis' && (
+        <div className='button-container'>
+          <Button
+            variant='contained'
+            color='default'
+            startIcon={<FontAwesomeIcon icon={faPlusCircle} />}
+            onClick={() => handleOpenModal('add')}
+          >
+            Add new
+          </Button>
+        </div>
+      )}
       <div className='table-container'>
         {loading ? (
           <Loading loading={loading} />
@@ -95,11 +102,10 @@ function HomePage(props) {
             onSelectedBank={handleSetBankId}
             banks={banks}
           />
+        ) : selectedItem === 'Calculations' ? (
+          <Calculation formulars={formulars} />
         ) : (
-          <div>
-            <CalcAccordion />
-            <CalcAccordion />
-          </div>
+          <Analysis />
         )}
       </div>
       <Modal
