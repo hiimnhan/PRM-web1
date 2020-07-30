@@ -2,7 +2,7 @@ import authContants from '../constants/auth.constants';
 
 const initialState = {
   user: {},
-  loggedIn: true,
+  loggedIn: false,
   loggingIn: false,
   errors: '',
 };

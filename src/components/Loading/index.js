@@ -1,12 +1,24 @@
-import React from 'react';
-import LoadingImage from '../../assets/images/loading.gif';
+import React, { memo } from 'react';
+import PropTypes from 'prop-types';
 import './styles.scss';
+
 function Loading(props) {
   return (
-    <div className='loading-container'>
-      <img src={LoadingImage} alt='' className='loading-image' />
+    <div
+      className={[
+        'app-loading',
+        props.className,
+        props.loading ? 'loading' : '',
+      ].join(' ')}
+    >
+      <div className='app-loading__icon'></div>
     </div>
   );
 }
 
-export default Loading;
+Loading.propTypes = {
+  loading: PropTypes.bool,
+  className: PropTypes.any,
+};
+
+export default memo(Loading);

@@ -16,11 +16,11 @@ import 'react-notifications-component/dist/theme.css';
 
 function App() {
   return (
-    <Router history={history}>
+    <Router forceRefresh={true} history={history}>
       <ReactNotification />
       <Switch>
         <Route path={routePath.LOGIN_PATH} component={LoginPage} />
-        <PrivateRoute path={routePath.HOME_PATH} component={HomePage} />
+        <Route path={routePath.HOME_PATH} component={HomePage} />
         <Route
           render={() => <Redirect to={{ pathname: routePath.LOGIN_PATH }} />}
         />

@@ -1,12 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faUsers,
-  faQuestionCircle,
-  faLanguage,
-  faUniversity,
-  faCalculator,
-} from '@fortawesome/free-solid-svg-icons';
+import { faUniversity, faCalculator } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 
 import './styles.scss';
@@ -28,6 +22,9 @@ function Carousel(props) {
   );
 }
 
-Carousel.propTypes = {};
+Carousel.propTypes = {
+  item: PropTypes.any,
+  quantity: PropTypes.any,
+};
 
 export default Carousel;

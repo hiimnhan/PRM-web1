@@ -17,8 +17,6 @@ function* getAllBanks() {
 }
 
 function* getBank(bankId) {
-  console.log('id saga', bankId);
-  console.log(`${baseUrl + bankConstants.GET_BANK_PATH}/${bankId.id}`);
   try {
     const bank = yield axios
       .get(`${baseUrl + bankConstants.GET_BANK_PATH}/${bankId.id}`)

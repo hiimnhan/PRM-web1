@@ -1,7 +1,6 @@
 import authContants from '../constants/auth.constants';
 
 const signInRequest = (params) => {
-  console.log('params', params);
   return {
     type: authContants.LOGIN_REQUEST,
     params,

@@ -8,6 +8,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import Paper from '@material-ui/core/Paper';
 import Popover from '@material-ui/core/Popover';
+import { makeStyles } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faEdit,
@@ -20,12 +21,18 @@ import { connect } from 'react-redux';
 import './styles.scss';
 import { bankActions } from '../../redux/actions/banks.actions';
 import { useState } from 'react';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    color: '#5b62b3',
+    fontWeight: 'bold',
+  },
+}));
 function BankTable(props) {
   const { banks = [], onOpenModal, onSelectedBank, deleteBank } = props;
-
+  const classes = useStyles();
   const handleClickEdit = (id) => {
     onOpenModal('edit');
-    console.log('click', id);
     onSelectedBank(id);
   };
 
@@ -33,6 +40,11 @@ function BankTable(props) {
 
   const handleClickDelete = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleDelete = (id) => {
+    deleteBank(id);
+    handleCloseDelete();
   };
 
   const handleCloseDelete = () => {
@@ -45,25 +57,36 @@ function BankTable(props) {
       <Table className='table'>
         <TableHead>
           <TableRow>
-            <TableCell>No</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell align='center' colSpan={3}>
+            <TableCell classes={{ root: classes.root }}>No</TableCell>
+            <TableCell classes={{ root: classes.root }}>Name</TableCell>
+            <TableCell
+              classes={{ root: classes.root }}
+              align='center'
+              colSpan={3}
+            >
               Loan (%)
             </TableCell>
-            <TableCell align='center' colSpan={3}>
+            <TableCell
+              classes={{ root: classes.root }}
+              align='center'
+              colSpan={3}
+            >
               Saving (%)
             </TableCell>
-            <TableCell>Actions</TableCell>
+            <TableCell classes={{ root: classes.root }}>
+              Free Interest (%)
+            </TableCell>
+            <TableCell classes={{ root: classes.root }}>Actions</TableCell>
           </TableRow>
           <TableRow>
             <TableCell></TableCell>
             <TableCell></TableCell>
-            <TableCell>6 months</TableCell>
-            <TableCell>12 months</TableCell>
-            <TableCell>24 months</TableCell>
-            <TableCell>6 months</TableCell>
-            <TableCell>12 months</TableCell>
-            <TableCell>24 months</TableCell>
+            <TableCell classes={{ root: classes.root }}>6 months</TableCell>
+            <TableCell classes={{ root: classes.root }}>12 months</TableCell>
+            <TableCell classes={{ root: classes.root }}>24 months</TableCell>
+            <TableCell classes={{ root: classes.root }}>6 months</TableCell>
+            <TableCell classes={{ root: classes.root }}>12 months</TableCell>
+            <TableCell classes={{ root: classes.root }}>24 months</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -85,6 +108,7 @@ function BankTable(props) {
                 <TableCell>{bank.savingRateSix}</TableCell>
                 <TableCell>{bank.savingRateTwelve}</TableCell>
                 <TableCell>{bank.savingRateTwentyFour}</TableCell>
+                <TableCell>{bank.freeInterest}</TableCell>
                 <TableCell>
                   <FontAwesomeIcon
                     className='table-icon'
@@ -122,7 +146,7 @@ function BankTable(props) {
                       className='table-icon'
                       icon={faCheckCircle}
                       color={'#48C690'}
-                      onClick={() => deleteBank(bank.id)}
+                      onClick={() => handleDelete(bank.id)}
                     />
                   </Popover>
                 </TableCell>

@@ -8,12 +8,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
 import { bankActions } from '../../redux/actions/banks.actions';
+import { calcActions } from '../../redux/actions/calculations.actions';
 import { useState } from 'react';
 
 import './styles.scss';
 import BankForm from '../../components/BankForm';
 import { makeStyles } from '@material-ui/core';
 import Loading from '../../components/Loading';
+import CalcAccordion from '../../components/CalcAccordion';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -27,14 +29,20 @@ const ADD_ACTION = 'add';
 const EDIT_ACTION = 'edit';
 
 function HomePage(props) {
-  const { banks = [], getAllBanks, getBank, bank = {}, loading } = props;
+  const {
+    banks = [],
+    formulars: [],
+    getAllBanks,
+    getAllFormulars,
+    getBank,
+    bank = {},
+    loading,
+  } = props;
   const classes = useStyles();
   const [selectedItem, setSelectedItem] = useState('Banks');
   const [openModal, setOpenModal] = useState(false);
   const [bankAction, setBankAction] = useState('');
   const [bankId, setBankId] = useState(null);
-
-  console.log('bankId', bankId);
 
   const handleSetBankId = (id) => {
     setBankId(id);
@@ -49,8 +57,12 @@ function HomePage(props) {
   const handleSelectedItem = (item) => setSelectedItem(item);
 
   useEffect(() => {
-    getAllBanks();
-  }, []);
+    if (selectedItem === 'Banks') {
+      getAllBanks();
+    } else if (selectedItem === 'Calculations') {
+      getAllFormulars();
+    }
+  }, [selectedItem]);
 
   useEffect(() => {
     if (bankId !== null) {
@@ -76,14 +88,19 @@ function HomePage(props) {
       </div>
       <div className='table-container'>
         {loading ? (
-          <Loading />
+          <Loading loading={loading} />
         ) : selectedItem === 'Banks' ? (
           <BankTable
             onOpenModal={handleOpenModal}
             onSelectedBank={handleSetBankId}
             banks={banks}
           />
-        ) : null}
+        ) : (
+          <div>
+            <CalcAccordion />
+            <CalcAccordion />
+          </div>
+        )}
       </div>
       <Modal
         open={openModal}
@@ -106,6 +123,7 @@ const mapStateToProps = (state) => {
     banks: state.bankReducer.banks,
     bank: state.bankReducer.bank,
     loading: state.bankReducer.loading,
+    formulars: state.calcReducers.formulars,
   };
 };
 
@@ -114,6 +132,7 @@ const mapDispatchToProps = (dispatch) => {
     ...dispatch,
     getAllBanks: () => dispatch(bankActions.getAllBanksRequest()),
     getBank: (id) => dispatch(bankActions.getBankRequest(id)),
+    getAllFormulars: () => dispatch(calcActions.getAllFormularRequest()),
   };
 };
 

@@ -7,7 +7,7 @@ import { bankActions } from '../../redux/actions/banks.actions';
 import moment from 'moment';
 function BankForm(props) {
   const { onCloseModal, action, bank = null, addBank, editBank } = props;
-  console.log('action', action);
+
   const initialValues = {
     bankName: action === 'edit' && bank ? bank.name : '',
     loanRateSix: action === 'edit' && bank ? bank.loanRateSix : 0,
@@ -17,6 +17,7 @@ function BankForm(props) {
     savingRateTwelve: action === 'edit' && bank ? bank.savingRateTwelve : 0,
     savingRateTwentyFour:
       action === 'edit' && bank ? bank.savingRateTwentyFour : 0,
+    freeInterest: action === 'edit' && bank ? bank.freeInterest : 0,
     icon: action === 'edit' && bank ? bank.icon : '',
   };
 
@@ -46,6 +47,10 @@ function BankForm(props) {
       .required('Required')
       .max(100, 'Must be less than 100(%)')
       .min(0, 'Must be more than 0 (%)'),
+    freeInterest: Yup.number()
+      .required('Required')
+      .max(100, 'Must be less than 100(%)')
+      .min(0, 'Must be more than 0 (%)'),
     icon: Yup.string().required('Required'),
   });
 
@@ -61,6 +66,7 @@ function BankForm(props) {
         savingRateSix: values.savingRateSix,
         savingRateTwelve: values.savingRateTwelve,
         savingRateTwentyFour: values.savingRateTwentyFour,
+        freeInterest: values.freeInterest,
         createdDate: moment().toISOString(),
       });
       onCloseModal();
@@ -75,6 +81,7 @@ function BankForm(props) {
         savingRateSix: values.savingRateSix,
         savingRateTwelve: values.savingRateTwelve,
         savingRateTwentyFour: values.savingRateTwentyFour,
+        freeInterest: values.freeInterest,
         createdDate: moment().toISOString(),
       });
       onCloseModal();
@@ -136,6 +143,25 @@ function BankForm(props) {
                     />
                     {errors.icon && touched.icon && (
                       <div className='bank-input__feedback'>{errors.icon}</div>
+                    )}
+                  </div>
+                  <div className='form-bank-group'>
+                    <label className='bank-label' htmlFor='freeInterest'>
+                      Free Interest Rate
+                    </label>
+                    <input
+                      type='text'
+                      id='freeInterest'
+                      name='freeInterest'
+                      className='bank-input'
+                      value={values.freeInterest}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    {errors.freeInterest && touched.freeInterest && (
+                      <div className='bank-input__feedback'>
+                        {errors.freeInterest}
+                      </div>
                     )}
                   </div>
                   <div className='bank-loan__tittle'>Loan Rate (%)</div>
@@ -259,6 +285,7 @@ function BankForm(props) {
                         </div>
                       )}
                   </div>
+
                   <div className='form-bank-group bank-button__group'>
                     <button className='bank-button' type='submit'>
                       {action === 'add' ? 'Add new' : 'Edit'}

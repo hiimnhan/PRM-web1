@@ -2,7 +2,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 
-const baseUrl = 'http://financial-web-service.azurewebsites.net/';
+const baseUrl = 'http://financial-web-service.azurewebsites.net/api/';
 
 const setHeader = (token) => {
   return {

@@ -6,12 +6,12 @@ import { connect } from 'react-redux';
 
 import './styles.scss';
 import { authActions } from '../../redux/actions/auth.actions';
+import { Redirect } from 'react-router-dom';
 function LoginForm(props) {
-  const { login, loggingIn } = props;
+  const { login, loggingIn, loggedIn } = props;
   const handleSubmit = (values) => {
     login(values);
   };
-  console.log('class', ['login-button', loggingIn ? 'disabled' : ''].join(' '));
   return (
     <Formik
       initialValues={{ email: '', password: '' }}
@@ -99,6 +99,12 @@ function LoginForm(props) {
   );
 }
 
+const mapStateToProps = (state) => {
+  return {
+    loggedIn: state.authentication.loggedIn,
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     ...dispatch,
@@ -106,4 +112,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(LoginForm);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
